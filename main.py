@@ -46,8 +46,9 @@ def victory_check():
 
 
 def tic_tac_print():
-    [print(' | '.join(row) + ("\n -------" if i < len(tic_tac) - 1 else "")) for i, row in enumerate(tic_tac)]
-
+    for i, row in enumerate(tic_tac):
+        print(' | '.join(row) + ("\n -------" if i < len(tic_tac) - 1 else ""))
+        
 
 game = True
 while game:
