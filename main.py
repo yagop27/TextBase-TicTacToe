@@ -49,7 +49,6 @@ def tic_tac_print():
     [print(' | '.join(row) + ("\n -------" if i < len(tic_tac) - 1 else "")) for i, row in enumerate(tic_tac)]
 
 
-
 game = True
 while game:
     tic_tac_print()
