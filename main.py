@@ -7,40 +7,31 @@ print('To play the game type the position you want to mark X or O in your respec
       'to mark the middle spot use 11.')
 
 
-def player1(position):
+def play(position, n_player):
     if len(position) != 2 or position[0] not in pos or position[1] not in pos:
-        return player1(input('Invalid input. Try again player 1: '))
+        return play(input(f'Invalid input. Try again player {n_player}: '), n_player)
     if tic_tac[int(position[0])][int(position[1])] != ' ':
-        player1(input("This spot is marked already, try again player 1: "))
-    else:
+        play(input(f"This spot is marked already, try again player {player}: "), n_player)
+    if player == 1:
         tic_tac[int(position[0])][int(position[1])] = 'X'
-
-
-def player2(position):
-    if len(position) != 2 or position[0] not in pos or position[1] not in pos:
-        return player2(input('Invalid input. Try again player 2: '))
-    if tic_tac[int(position[0])][int(position[1])] != ' ':
-        player1(input("This spot is marked already, try again player 2: "))
     else:
         tic_tac[int(position[0])][int(position[1])] = 'O'
 
 
 def victory_check():
     for n in range(3):
-        if tic_tac[n].count(tic_tac[n][0]) == 3 and tic_tac[n][0] != ' ':
+        if tic_tac[n][0] == tic_tac[n][1] == tic_tac[n][2] != ' ':
             return True
 
-        column = [row[n] for row in tic_tac]
-        if column.count(column[0]) == 3 and column[0] != ' ':
+        if tic_tac[0][n] == tic_tac[1][n] == tic_tac[2][n] != ' ':
             return True
 
-    diag1 = [tic_tac[n][n] for n in range(3)]
-    if diag1.count(diag1[0]) == 3 and diag1[0] != ' ':
+    if tic_tac[0][0] == tic_tac[1][1] == tic_tac[2][2] != ' ':
         return True
 
-    diag2 = [tic_tac[n][2 - n] for n in range(3)]
-    if diag2.count(diag2[0]) == 3 and diag2[0] != ' ':
+    if tic_tac[0][2] == tic_tac[1][1] == tic_tac[2][0] != ' ':
         return True
+
     else:
         return False
 
@@ -48,23 +39,27 @@ def victory_check():
 def tic_tac_print():
     for i, row in enumerate(tic_tac):
         print(' | '.join(row) + ("\n -------" if i < len(tic_tac) - 1 else ""))
-        
+
+
+def is_draw():
+    if all(slot != ' ' for row in tic_tac for slot in row):
+        print('It is a draw')
+        return True
+
 
 game = True
+player = 1
 while game:
     tic_tac_print()
 
-    player1(input("Type where you want to mark X player 1: "))
-    tic_tac_print()
+    play(input(f"Type where you want to mark X player {player}: "), player)
 
     if victory_check():
-        print('Player 1 won!')
+        print(f'Player {player} won!')
         break
 
-    player2(input("Type where you want to mark O player 2: "))
-    if victory_check():
-        print('Player 2 won!')
+    if is_draw():
+        tic_tac_print()
+        print("It's a draw.")
         break
-
-
-
+    player = 2 if player == 1 else 1
